@@ -10,7 +10,12 @@ class JoborderController extends Controller
     
     public function managejoborder()
     {
-        return view('managejoborder');
+        return view('joborders/managejoborder');
+    }
+
+    public function createjoborder()
+    {
+        return view('joborders/createjoborder');
     }
 
 }

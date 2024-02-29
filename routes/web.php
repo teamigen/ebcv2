@@ -25,16 +25,23 @@ Route::get('/', [LoginController::class, 'login']);
 
 
 
+Route::get('/logout',[
+    'uses' => 'LoginController@logout',
+    'as'   => 'logout'
+    ]);
 
 Route::controller(DashboardController::class)->group(function() {
     Route::post('/home', 'home')->name('welcomehome');
     Route::get('/home', 'home')->name('welcomehome');
     Route::get('dashboard', 'dashboard')->name('dashboard');
+    Route::get('logout', 'logout')->name('logout');
 
 });
 
 Route::controller(JoborderController::class)->group(function() {
     Route::get('joborder/managejoborder', 'managejoborder')->name('managejoborder');
+    Route::get('joborder/createjoborder', 'createjoborder')->name('createjoborder');
 
 });
+
 

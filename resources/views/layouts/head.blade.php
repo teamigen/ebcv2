@@ -24,9 +24,13 @@
     <div class="row">
       <div class="col-lg-12">
       <img src="{{ asset('assets/images/ebc-logo.png') }}">
-    @if(Request::segment(1) != 'home')
+
     <div class="headcss">
-    
+      <div class="row">
+
+        <div class="col-md-6">
+        @if(Request::segment(1) != 'home')
+
     @php
             $navname = Request::segment(1);
             @endphp
@@ -34,9 +38,16 @@
         <p><i class="fa fa-home" aria-hidden="true"></i>
            <a href="{{route('welcomehome')}}">Home</a> / <span>
  </span>{{$navname}} </p>
+ @endif
+
+</div>
+<div class="col-md-6">
+  <p style="text-align:right">Admin <span><a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+</span></p>
+</div>
    
 </div>
-@endif
+
       </div>
 
     </div>
