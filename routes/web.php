@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\JoborderController;
 
+
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,31 +17,21 @@ use App\Http\Controllers\JoborderController;
 */
 
 // Route::get('/', function () {
-//     return view('login');
+//     return view('welcome');
 // });
 
-//default controller
-Route::get('/', [LoginController::class, 'login']);
+Route::get('/', [AuthController::class, 'index'])->name('login');
+Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
+Route::get('registration', [AuthController::class, 'registration'])->name('register');
+Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
+Route::get('logout/{id}', [AuthController::class, 'logout'])->name('logout');
 
-
-
-Route::get('/logout',[
-    'uses' => 'LoginController@logout',
-    'as'   => 'logout'
-    ]);
 
 Route::controller(DashboardController::class)->group(function() {
-    Route::post('/home', 'home')->name('welcomehome');
-    Route::get('/home', 'home')->name('welcomehome');
+    Route::post('/home', 'home')->name('home');
+    Route::get('/home', 'home')->name('home');
     Route::get('dashboard', 'dashboard')->name('dashboard');
-    Route::get('logout', 'logout')->name('logout');
+    Route::get('logout/{id}', 'logout')->name('logout');
+
 
 });
-
-Route::controller(JoborderController::class)->group(function() {
-    Route::get('joborder/managejoborder', 'managejoborder')->name('managejoborder');
-    Route::get('joborder/createjoborder', 'createjoborder')->name('createjoborder');
-
-});
-
-

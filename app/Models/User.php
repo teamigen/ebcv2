@@ -41,4 +41,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        
+		return LogOptions::defaults()
+        ->logOnly([
+				'name',
+        'email',
+        'password',
+			]);
+		
+    }
 }

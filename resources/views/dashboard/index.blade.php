@@ -1,4 +1,4 @@
-@include('layouts.head')
+@include('layout.head')
 
 <section class="dashboard">
   <div class="container">

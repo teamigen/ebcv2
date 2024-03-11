@@ -23,33 +23,42 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-      <img src="{{ asset('assets/images/ebc-logo.png') }}">
-
-    <div class="headcss">
-      <div class="row">
-
-        <div class="col-md-6">
-        @if(Request::segment(1) != 'home')
-
-    @php
-            $navname = Request::segment(1);
-            @endphp
-   
-        <p><i class="fa fa-home" aria-hidden="true"></i>
-           <a href="{{route('welcomehome')}}">Home</a> / <span>
- </span>{{$navname}} </p>
- @endif
-
-</div>
-<div class="col-md-6">
-  <p style="text-align:right">Admin <span><a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-</span></p>
-</div>
-   
-</div>
-
+      <img src="{{asset('assets/images/ebc-logo.png') }}" style="width:100px">
       </div>
 
     </div>
   </div>
 </section>
+
+<section class="ebc-orders">
+  <div class="container">
+
+  <form id="multi-step-form" method="POST" action="{{ route('login.post') }}">
+  @csrf
+    <div class="form-step active-step" id="step-1">
+            <h3>LOGIN</h3>
+      <div class="mb-3">
+        <label for="field1">Username</label>
+        <input type="text" class="form-control" id="field1" name="email" required value="test">
+      </div>
+      <div class="mb-3">
+        <label for="field2">Password</label>
+        <input type="text" class="form-control" id="field2" name="password" required value="test">
+      </div>
+    </div>
+@if ($errors->has('email'))
+    <span class="invalid-feedback">
+        <strong>{{ $errors->first('email') }}</strong>
+    </span>
+@endif
+      <button class="btn btn-primary" onclick="submitForm()" type="submit">Login</button>
+    </div>
+    </form>
+    @include('layout.notify')
+    </div>
+  </div>
+</section>
+
+
+</body>
+</html>
