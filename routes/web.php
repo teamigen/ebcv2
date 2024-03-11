@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JoborderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,4 +35,10 @@ Route::controller(DashboardController::class)->group(function() {
     Route::get('logout/{id}', 'logout')->name('logout');
 
 
+});
+
+Route::controller(JoborderController::class)->group(function(){
+                // link        //controller function         //indexfromhome
+    Route::get('joborder/manage','managejoborder')->name('managejoborder');
+    Route::get('joborder/createnew','createjoborder')->name('createjoborder');
 });

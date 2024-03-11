@@ -33,11 +33,12 @@
 
     @php
             $navname = Request::segment(1);
+            $navnamesub=Request::segment(2);
             @endphp
    
         <p><i class="fa fa-home" aria-hidden="true"></i>
-           <a href="{{route('home')}}">Home</a> / <span>
- </span>{{$navname}} </p>
+           <a href="{{route('home')}}">Home</a> / <a href="{{route('managejoborder')}}">{{$navname}}</a><span>
+ </span> / {{$navnamesub}}</p>
  @endif
 
 </div>
