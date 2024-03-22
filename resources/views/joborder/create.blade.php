@@ -1,4 +1,5 @@
 @include('layout.head')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <section class="ebc-orders">
   <div class="container">
@@ -9,31 +10,43 @@
     </div>
   </div>
 
-  <form id="multi-step-form">
-    <div class="form-step active-step" id="step-1">
-      <div class="mb-3">
-        <label for="field1">Field 1</label>
-        <input type="text" class="form-control" id="field1" required>
+  <form id="form1" method="post">
+    <div class="form-step active-step col-md-12 row" id="step-1">
+      <div class="col-md-3" style="float:left;margin-bottom:8px;">
+        <label for="field1">Customer Phone</label>
+        <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
       </div>
-      <div class="mb-3">
-        <label for="field2">Field 2</label>
-        <input type="text" class="form-control" id="field2" required>
+      <div class="col-md-3" style="float:left;margin-bottom:8px;">
+        <label for="field2">Customer Name</label>
+        <input type="text" class="form-control" id="customerName" name="customerName" required>
       </div>
-      <div class="mb-3">
-        <label for="field3">Field 3</label>
-        <input type="text" class="form-control" id="field3" required>
-      </div>
-      <div class="mb-3">
-        <label for="select1">Select 1</label>
-        <select class="form-select" id="select1" required>
-          <option value="">Select an option</option>
+      <div class="col-md-3" style="float:left;margin-bottom:8px;">
+        <label for="field3">Customer Type</label>
+        <select class="form-select" id="customertype" id="customertype" required>
+          <option value="">Select Customer Type</option>
           <option value="option1">Option 1</option>
           <option value="option2">Option 2</option>
         </select>
       </div>
-      <div class="mb-3">
-        <label for="textarea1">Textarea 1</label>
-        <textarea class="form-control" id="textarea1" rows="3" required></textarea>
+      <div class="col-md-3" style="float:left;margin-bottom:8px;">
+        <label for="field3">Source</label>
+        <select class="form-select" id="source" name="source" required>
+          <option value="">Select Source</option>
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+        </select>
+      </div>
+      <div class="col-md-3" style="float:left;margin-bottom:8px;">
+        <label for="select1">GST</label>
+        <input type="text" class="form-control" id="customergst" name="customergst" required>
+      </div>
+      <div class="col-md-3" style="float:left;margin-bottom:8px;">
+        <label for="select1">Email</label>
+        <input type="text" class="form-control" id="customerEmail" name="customerEmail" required>
+      </div>
+      <div class="col-md-12" style="float:left;margin-bottom:18px;">
+        <label for="textarea1">Address</label>
+        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
       </div>
       <button class="btn btn-primary" onclick="nextStep(1)" type="button">Next</button>
     </div>
@@ -121,6 +134,29 @@
 
 <script>
   function nextStep(currentStep) {
+    if(currentStep==1)
+    {
+
+      
+      var actionUrl ='savecustomerform';
+      
+
+    }
+    else
+    {
+      var actionUrl ='saveproductsfrom';
+    }
+
+    $.ajax({
+        type: "POST",
+        url: actionUrl,
+        data: $("#form"+currentStep).serialize(), // serializes the form's elements.
+        success: function(data)
+        {
+          alert(data); // show response from the php script.
+        }
+    });
+    
     document.getElementById(`step-${currentStep}`).classList.remove('active-step');
     document.getElementById(`step-${currentStep + 1}`).classList.add('active-step');
     
