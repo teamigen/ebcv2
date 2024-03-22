@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JoborderController;
+use App\Http\Controllers\SettingsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,4 +42,18 @@ Route::controller(JoborderController::class)->group(function(){
                 // link        //controller function         //indexfromhome
     Route::get('joborder/manage','managejoborder')->name('managejoborder');
     Route::get('joborder/createnew','createjoborder')->name('createjoborder');
+});
+
+
+Route::controller(SettingsController::class)->group(function(){
+
+    Route::get("settings/home","index")->name("managesettings");
+    Route::get("settings/productparameter","productparameter")->name("productparameter");
+    Route::get("settings/tax","tax")->name("tax");
+    Route::get("settings/productcategory","productcategory")->name("productcategory");
+    Route::get("settings/productsubcategory","productsubcategory")->name("productsubcategory");
+    Route::get("settings/producttype","producttype")->name("producttype");
+    Route::get("settings/printers","printers")->name("printers");
+    Route::get("settings/customertype","customertype")->name("customertype");
+    Route::get("settings/addons","addons")->name("addons");
 });

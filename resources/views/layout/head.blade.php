@@ -34,10 +34,22 @@
     @php
             $navname = Request::segment(1);
             $navnamesub=Request::segment(2);
+            if($navname=='settings')
+            {
+               $navlink = 'managesettings';
+            }
+            elseif($navname=='joborder')
+            {
+               $navlink = 'managejoborder';
+            }
+            else
+            {
+              $navlink='home';
+            }
             @endphp
    
         <p><i class="fa fa-home" aria-hidden="true"></i>
-           <a href="{{route('home')}}">Home</a> / <a href="{{route('managejoborder')}}">{{$navname}}</a><span>
+           <a href="{{route('home')}}">Home</a> / <a href="{{route($navlink)}}">{{$navname}}</a><span>
  </span> / {{$navnamesub}}</p>
  @endif
 
@@ -54,3 +66,21 @@
     </div>
   </div>
 </section>
+<style>
+  label
+  {
+    margin:6px 0;
+  }
+  .btn
+  {
+    float:right;
+    margin-top:12px;
+  }
+
+  .borderclass
+  {
+    border: 1px solid #ccc;
+    padding: 26px;
+
+  }
+  </style>
