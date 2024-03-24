@@ -56,4 +56,7 @@ Route::controller(SettingsController::class)->group(function(){
     Route::get("settings/printers","printers")->name("printers");
     Route::get("settings/customertype","customertype")->name("customertype");
     Route::get("settings/addons","addons")->name("addons");
+
+    Route::post("settings/saveparameter","saveparameter")->name("saveparameter");
+    
 });

@@ -8,18 +8,18 @@
     <div class="col-md-6">
         <h3 style="font-size:14px">Create New Parameter</h3>
         <hr>
-         <form id="form1" method="post">
-        
+         <form id="form1" method="post" action="{{route('saveparameter')}}">
+         @csrf
         <div class="col-md-12">
             <label for="field1">Parameter Name</label>
-            <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
+            <input type="text" class="form-control" id="parameterName" name="parameterName" required>
         </div>
         <div class="col-md-12">
             <label for="field2">Values</label>
-            <input type="text" class="form-control" id="customerName" name="customerName" required>
+            <input type="number" class="form-control" id="paramValues" name="paramValues" required>
         </div>
         <div class="col-md-12">
-            <button class="btn btn-primary" onclick="submitForm()" type="button">Submit</button>
+            <button class="btn btn-primary"  type="submit">Submit</button>
         </div>
         
         </form>
