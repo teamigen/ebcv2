@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-  
+use App\Models\Productparameter;
 use Illuminate\Http\RedirectResponse;
-
-use App\Models\productparameter;
 
 class SettingsController extends Controller
 {
@@ -48,15 +46,16 @@ class SettingsController extends Controller
         return view('settings/addons');
     }
 
-    // public function saveparameter()
-    public function saveparameter(Request $request)
+    public function saveparameter(Request $req): RedirectResponse
+    
     {
-        print_r($_POST);
-        $productparameter = new productparameter;
-        $productparameter->parameterName=$request->parameterName;
-        $productparameter->parameterValue=$request->parameterValue;
-        $productparameter->save();
-
+        // print_r($_POST);
+        $param = new Productparameter();
+        $param->parameterName        =  $req->parameterName;
+		$param->parameterValue      =  $req->paramValues;
+        $param->save();
+        $notify[] = ['success', 'created successfully.'];
+        return redirect()->intended('settings/productparameter')->withNotify($notify);
     }
 }
 
