@@ -58,5 +58,8 @@ Route::controller(SettingsController::class)->group(function(){
     Route::get("settings/addons","addons")->name("addons");
 
     Route::post("settings/saveparameter","saveparameter")->name("saveparameter");
+    Route::get("settings/editparameter/{id}","editparameter")->name("editparameter");
     
+
+    // Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
 });

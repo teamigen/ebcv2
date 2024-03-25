@@ -73,8 +73,8 @@
   }
   .btn
   {
-    float:right;
-    margin-top:12px;
+    /* float:right;
+    margin-top:12px; */
   }
 
   .borderclass
