@@ -3,6 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js" type="text/javascript"></script>  
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" />  
+        
 
 <section class="ebc-orders">
   <div class="container">
@@ -21,7 +22,7 @@
             <input type="text" class="form-control" id="parameterValue" value="@if(isset($data->parameterValue)) {{$data->parameterValue}} @endif" name="parameterValue" required>
         </div>
         <div class="col-md-12" style="margin-top:12px;">
-        <input type="text" name="id" value="@if(isset($data->id)) {{$data->id}} @endif">
+        <input type="hidden" name="id" value="@if(isset($data->id)) {{$data->id}} @endif">
             <button class="btn btn-primary"  type="submit">Submit</button>
         </div>
         
@@ -74,9 +75,40 @@ columns: [
 // {data: 'id', name: 'id'},
 {data: 'parameterName', name: 'parameterName'},
 {data: 'parameterValue', name: 'parameterValue'},
-{data: 'action', name: 'action', orderable: false, searchable: false},
-]
+{
+                data: null,
+                render: function (data, type, row)
+                    {
+ 
+ 
+            return '<a href="editparameter/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
+            // '<a style="cursor:pointer" onclick="deleteparameter('+row.id+')"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+ 
+                    }
+                },]
 });
 });
+
+function deleteparameter(id)
+{
+    // alert(id);
+    var result=false;
+    if (confirm("Are you sure want to remove this item?")) 
+    {
+        var result = true;
+        
+    }
+    if(result=='true')
+    {
+        $.ajax({
+            url: "deleteparameter",
+            data:{paramid:id},
+            success:{
+
+            }
+        });
+    }
+    // alert(result);
+}
 </script>
         <!-- </script>  -->

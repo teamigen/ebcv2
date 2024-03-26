@@ -22,15 +22,15 @@ class SettingsController extends Controller
             $data = Productparameter::select('*');
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('action', function($row){
+        //     ->addColumn('action', function($row){
        
-                $btn = '<a href="editparameter/'.$row->id.'" class="edit btn btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i>
-                </a>';
-                $btn = $btn.'<a href="javascript:void(0)" class="edit btn  btn-sm"><i class="fa fa-trash" aria-hidden="true"></i>
-                </a>';
+        //         $btn = '<a href="editparameter/'.$row->id.'" class="edit btn btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i>
+        //         </a>';
+        //         $btn = $btn.'<a href="javascript:void(0)" class="edit btn  btn-sm"><i class="fa fa-trash" aria-hidden="true"></i>
+        //         </a>';
 
-                 return $btn;
-         })
+        //          return $btn;
+        //  })
             ->rawColumns(['action'])
             ->make(true);
             }
@@ -72,19 +72,29 @@ class SettingsController extends Controller
     
     {
         // print_r($_POST);
-        $param = new Productparameter();
+        
+        if($req->id=='')
+        {
+            $param = new Productparameter();
         
         $param->parameterName        =  $req->parameterName;
 		$param->parameterValue      =  $req->parameterValue;
-        if($req->id=='')
-        {
             $param->save();
             $notify[] = ['success', 'created successfully.'];
         }
         else
         {
-            $data = Productparameter::find($req->id);
-            $data->update();
+
+            $param = Productparameter::find($req->id);
+ 
+        
+        $param->parameterName        =  $req->parameterName;
+		$param->parameterValue      =  $req->parameterValue;
+        //    print_r($_POST);
+            
+            $param->save();
+
+            
             $notify[] = ['success', 'updated successfully.'];
         }
         
