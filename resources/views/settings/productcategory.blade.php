@@ -8,15 +8,16 @@
     <div class="col-md-6">
         <h3 style="font-size:14px">Create New Category</h3>
         <hr>
-         <form id="form1" method="post">
-        
+        <form id="form1" method="post" action="{{route('saveproductcategory')}}">
+        @csrf
         <div class="col-md-12">
             <label for="field1">Category Name</label>
-            <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
+            <input type="text" class="form-control" value="@if(isset($data->categoryName)) {{$data->categoryName}} @endif" id="categoryName" name="categoryName" required> 
         </div>
        
         <div class="col-md-12">
-            <button class="btn btn-primary" onclick="submitForm()" type="button">Submit</button>
+        <input type="hidden" name="id" value="@if(isset($data->id)) {{$data->id}} @endif">
+        <button class="btn btn-primary" type="submit">Submit</button>
         </div>
         
         </form>
@@ -63,10 +64,27 @@
     }
     </style>
 
-<script type="text/javascript">  
-$(document).ready(function ()  
-{  
-    $('#datatable').dataTable(  
-    {});  
-});  
+<script type="text/javascript">
+$(function () {
+var table = $('#datatable').DataTable({
+processing: true,
+serverSide: true,
+ajax: "{{ route('productcategory') }}",
+columns: [
+// {data: 'id', name: 'id'},
+{data: 'categoryName', name: 'categoryName'},
+{
+                data: null,
+                render: function (data, type, row)
+                    {
+ 
+ 
+            return '<a href="editproductcategory/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
+            // '<a style="cursor:pointer" onclick="deleteparameter('+row.id+')"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+ 
+                    }
+                },]
+});
+}); 
         </script> 
+        

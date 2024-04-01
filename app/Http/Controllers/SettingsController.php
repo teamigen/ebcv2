@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Productparameter;
+use App\Models\Productcategory;
+use App\Models\Tax;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
 
@@ -22,15 +24,6 @@ class SettingsController extends Controller
             $data = Productparameter::select('*');
             return Datatables::of($data)
             ->addIndexColumn()
-        //     ->addColumn('action', function($row){
-       
-        //         $btn = '<a href="editparameter/'.$row->id.'" class="edit btn btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i>
-        //         </a>';
-        //         $btn = $btn.'<a href="javascript:void(0)" class="edit btn  btn-sm"><i class="fa fa-trash" aria-hidden="true"></i>
-        //         </a>';
-
-        //          return $btn;
-        //  })
             ->rawColumns(['action'])
             ->make(true);
             }
@@ -39,13 +32,29 @@ class SettingsController extends Controller
 
         
     }
-    public function tax()
+    public function tax(Request $request)
     {
-        return view('settings/tax');
+        $data='';
+        if ($request->ajax()) {
+            $data = Tax::select('*');
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
+            }
+        return view('settings/tax',compact('data'));
     }
-    public function productcategory()
+    public function productcategory(Request $request)
     {
-        return view('settings/productcategory');
+        $data='';
+        if ($request->ajax()) {
+        $data = Productcategory::select('*');
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->rawColumns(['action'])
+        ->make(true);
+        }
+        return view('settings/productcategory',compact('data'));
     }
     public function productsubcategory()
     {
@@ -71,8 +80,6 @@ class SettingsController extends Controller
     public function saveparameter(Request $req): RedirectResponse
     
     {
-        // print_r($_POST);
-        
         if($req->id=='')
         {
             $param = new Productparameter();
@@ -90,8 +97,7 @@ class SettingsController extends Controller
         
         $param->parameterName        =  $req->parameterName;
 		$param->parameterValue      =  $req->parameterValue;
-        //    print_r($_POST);
-            
+          
             $param->save();
 
             
@@ -105,6 +111,80 @@ class SettingsController extends Controller
     {
         $data = Productparameter::find($param);
         return view('settings/productparameter',compact('data'));
+
+            
+    }
+
+    public function savetax(Request $req): RedirectResponse
+    
+    {
+        if($req->id=='')
+        {
+            $param = new Tax();
+        
+        $param->taxName        =  $req->taxName;
+		$param->taxValue      =  $req->taxValue;
+            $param->save();
+            $notify[] = ['success', 'created successfully.'];
+        }
+        else
+        {
+
+            $param = Tax::find($req->id);
+ 
+        
+        $param->taxName        =  $req->taxName;
+		$param->taxValue      =  $req->taxValue;
+          
+            $param->save();
+
+            
+            $notify[] = ['success', 'updated successfully.'];
+        }
+        
+        return redirect()->intended('settings/tax')->withNotify($notify);
+    }
+
+    public function edittax($param)
+    {
+        $data = Tax::find($param);
+        return view('settings/tax',compact('data'));
+
+            
+    }
+
+    public function saveproductcategory(Request $req): RedirectResponse
+    
+    {
+        if($req->id=='')
+        {
+            $param = new Productcategory();
+        
+        $param->categoryName        =  $req->categoryName;
+            $param->save();
+            $notify[] = ['success', 'created successfully.'];
+        }
+        else
+        {
+
+            $param = Productcategory::find($req->id);
+ 
+        
+            $param->categoryName        =  $req->categoryName;
+          
+            $param->save();
+
+            
+            $notify[] = ['success', 'updated successfully.'];
+        }
+        
+        return redirect()->intended('settings/productcategory')->withNotify($notify);
+    }
+
+    public function editproductcateogy($param)
+    {
+        $data = Tax::find($param);
+        return view('settings/productcategory',compact('data'));
 
             
     }

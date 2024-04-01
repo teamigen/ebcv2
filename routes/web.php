@@ -60,6 +60,12 @@ Route::controller(SettingsController::class)->group(function(){
     Route::post("settings/saveparameter","saveparameter")->name("saveparameter");
     Route::get("settings/editparameter/{id}","editparameter")->name("editparameter");
 
+    Route::post("settings/savetax","savetax")->name("savetax");
+    Route::get("settings/edittax/{id}","edittax")->name("edittax");
+
+    Route::post("settings/saveproductcategory","saveproductcategory")->name("saveproductcategory");
+    Route::get("settings/editproductcategory/{id}","editproductcategory")->name("editproductcategory");
+
 
     // Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
 });
