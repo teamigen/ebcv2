@@ -8,22 +8,36 @@
     <div class="col-md-6">
         <h3 style="font-size:14px">Create New subcategory</h3>
         <hr>
-         <form id="form1" method="post">
+         <form id="form1" method="post" action="{{route('saveproductsubcategory')}}">
+         @csrf
         
         <div class="col-md-12">
             <label for="field1">Category Name</label>
-            <select class="form-control">
+            <select class="form-control" name="catId" id="catId" required >
                 <option value="">Select</option>
+                <?php foreach ($productcategories as $key => $value) {
+                    $selected='';
+                    if(isset($data->catId))
+                    {
+                        if($data->catId==$value->id)
+                        {
+                            $selected='selected';
+                        }
+                    }
+                  echo '<option value="'.$value->id.'" '.$selected.'>'.$value->categoryName.'</option>';
+                }
+                ?>
         </select>
         </div>
 
         <div class="col-md-12">
             <label for="field1">subcategory Name</label>
-            <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
+            <input type="text" class="form-control" id="subcategoryName" name="subcategoryName" required value="@if(isset($data->subcategoryName)) {{$data->subcategoryName}} @endif">
         </div>
        
-        <div class="col-md-12">
-            <button class="btn btn-primary" onclick="submitForm()" type="button">Submit</button>
+        <div class="col-md-12" style="margin-top:12px">
+            <input type="hidden" name="id" value="@if(isset($data->id)) {{$data->id}} @endif">
+            <button class="btn btn-primary" type="submit">Submit</button>
         </div>
         
         </form>
@@ -34,28 +48,12 @@
         <table class="table" id="datatable">
             <thead>
                 <tr>
-                    <th>Cat Name</th>
-                    <th>Sub Cat Name</th>
+                    <th>Category Name</th>
+                    <th>Sub Category Name</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Cat 1</td>
-                    <td>Sub Cat 1</td>
-                    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>Cat1</td>
-                    <td>Sub Cat 2</td>
-                    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-
-                    </td>
-                </tr>
             </tbody>
         </table>
 </div>
@@ -73,10 +71,27 @@
     }
     </style>
 
-<script type="text/javascript">  
-$(document).ready(function ()  
-{  
-    $('#datatable').dataTable(  
-    {});  
-});  
+<script type="text/javascript">
+$(function () {
+var table = $('#datatable').DataTable({
+processing: true,
+serverSide: true,
+ajax: "{{ route('productsubcategory') }}",
+columns: [
+{data: 'categoryName', name: 'categoryName'},
+{data: 'subcategoryName', name: 'subcategoryName'},
+{
+                data: null,
+                render: function (data, type, row)
+                    {
+ 
+ 
+            return '<a href="editproductsubcategory/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
+            // '<a style="cursor:pointer" onclick="deleteparameter('+row.id+')"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+ 
+                    }
+                },]
+});
+}); 
         </script> 
+        

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Productparameter;
 use App\Models\Productcategory;
+use App\Models\Productsubcategory;
+use App\Models\Printer;
+use App\Models\Producttype;
 use App\Models\Tax;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
@@ -56,18 +59,9 @@ class SettingsController extends Controller
         }
         return view('settings/productcategory',compact('data'));
     }
-    public function productsubcategory()
-    {
-        return view('settings/productsubcategory');
-    }
-    public function producttype()
-    {
-        return view('settings/producttype');
-    }
-    public function printers()
-    {
-        return view('settings/printers');
-    }
+   
+    
+   
     public function customertype()
     {
         return view('settings/customertype');
@@ -181,12 +175,170 @@ class SettingsController extends Controller
         return redirect()->intended('settings/productcategory')->withNotify($notify);
     }
 
-    public function editproductcateogy($param)
+    public function editproductcategory($param)
     {
-        $data = Tax::find($param);
+        $data = Productcategory::find($param);
         return view('settings/productcategory',compact('data'));
 
             
     }
+
+
+
+    public function productsubcategory(Request $request)
+    {
+        $data='';
+        if ($request->ajax()) {
+        
+        $data = Productsubcategory::join('productcategories', 'productcategories.id', '=', 'productsubcategories.catId')
+              		->get(['productcategories.categoryName', 'productsubcategories.subcategoryName','productsubcategories.id']);
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->rawColumns(['action'])
+        ->make(true);
+        }
+
+
+        $productcategories = Productcategory::all();
+
+        return view('settings/productsubcategory',compact('data','productcategories'));
+    }
+
+    public function saveproductsubcategory(Request $req):RedirectResponse
+    {
+        if($req->id=='')
+        {
+            $param = new Productsubcategory();
+        
+        $param->catId        =  $req->catId;
+		$param->subcategoryName      =  $req->subcategoryName;
+            $param->save();
+            $notify[] = ['success', 'created successfully.'];
+        }
+        else
+        {
+
+            $param = Productsubcategory::find($req->id);
+ 
+        
+        $param->catId        =  $req->catId;
+		$param->subcategoryName      =  $req->subcategoryName;
+          
+            $param->save();
+
+            
+            $notify[] = ['success', 'updated successfully.'];
+        }
+        
+        return redirect()->intended('settings/productsubcategory')->withNotify($notify);
+    }
+
+    public function editproductsubcategory($param)
+    {
+        $data = Productsubcategory::find($param);
+        $productcategories = Productcategory::all();
+
+        return view('settings/productsubcategory',compact('data','productcategories'));    
+    }
+
+    public function producttype(Request $request)
+    {
+
+        $data='';
+        if ($request->ajax()) {
+        $data = Producttype::select('*');
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->rawColumns(['action'])
+        ->make(true);
+        }
+        return view('settings/producttype',compact('data'));
+   
+
+    }
+
+    public function saveproducttype(Request $req) :RedirectResponse
+    {
+        if($req->id=='')
+        {
+            $param = new Producttype();
+        
+		    $param->typeName      =  $req->typeName;
+            $param->save();
+            $notify[] = ['success', 'created successfully.'];
+        }
+        else
+        {
+
+            $param = Producttype::find($req->id);
+ 
+        
+		$param->typeName      =  $req->typeName;
+          
+            $param->save();
+
+            
+            $notify[] = ['success', 'updated successfully.'];
+        }
+        
+        return redirect()->intended('settings/producttype')->withNotify($notify);
+    }
+
+    public function editproducttype($param)
+    {
+        $data = Producttype::find($param);
+
+        return view('settings/producttype',compact('data'));    
+    }
+
+
+    public function printers(Request $request)
+    {
+
+        $data='';
+        if ($request->ajax()) {
+        $data = Printer::select('*');
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->rawColumns(['action'])
+        ->make(true);
+        }
+        return view('settings/printers',compact('data'));
+    }
+
+    public function saveprinter(Request $req) :RedirectResponse
+    {
+        if($req->id=='')
+        {
+            $param = new Printer();
+        
+		    $param->printerName      =  $req->printerName;
+            $param->save();
+            $notify[] = ['success', 'created successfully.'];
+        }
+        else
+        {
+
+            $param = Printer::find($req->id);
+ 
+        
+		$param->printerName      =  $req->printerName;
+          
+            $param->save();
+
+            
+            $notify[] = ['success', 'updated successfully.'];
+        }
+        
+        return redirect()->intended('settings/printers')->withNotify($notify);
+    }
+
+    public function editprinter($param)
+    {
+        $data = Printer::find($param);
+
+        return view('settings/printers',compact('data'));    
+    }
+
 }
 

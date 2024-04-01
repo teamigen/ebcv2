@@ -66,6 +66,14 @@ Route::controller(SettingsController::class)->group(function(){
     Route::post("settings/saveproductcategory","saveproductcategory")->name("saveproductcategory");
     Route::get("settings/editproductcategory/{id}","editproductcategory")->name("editproductcategory");
 
+    Route::post("settings/saveproductsubcategory","saveproductsubcategory")->name("saveproductsubcategory");
+    Route::get("settings/editproductsubcategory/{id}","editproductsubcategory")->name("editproductsubcategory");
+
+    Route::post("settings/saveproducttype","saveproducttype")->name("saveproducttype");
+    Route::get("settings/editproducttype/{id}","editproducttype")->name("editproducttype");
+
+    Route::post("settings/saveprinter","saveprinter")->name("saveprinter");
+    Route::get("settings/editprinter/{id}","editprinter")->name("editprinter");
 
     // Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
 });

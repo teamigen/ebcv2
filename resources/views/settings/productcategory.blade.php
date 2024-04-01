@@ -15,7 +15,7 @@
             <input type="text" class="form-control" value="@if(isset($data->categoryName)) {{$data->categoryName}} @endif" id="categoryName" name="categoryName" required> 
         </div>
        
-        <div class="col-md-12">
+        <div class="col-md-12" style="margin-top:12px">
         <input type="hidden" name="id" value="@if(isset($data->id)) {{$data->id}} @endif">
         <button class="btn btn-primary" type="submit">Submit</button>
         </div>
