@@ -8,25 +8,27 @@
     <div class="col-md-6">
         <h3 style="font-size:14px">Create New Type</h3>
         <hr>
-         <form id="form1" method="post">
+        <form id="form1" method="post" action="{{route('saveaddons')}}">
+        @csrf
         
         <div class="col-md-12">
             <label for="field1">Name</label>
-            <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
+            <input type="text" class="form-control" value="@if(isset($data->name)) {{$data->name}} @endif" id="name" name="name" required> 
         </div>
 
         <div class="col-md-12">
             <label for="field1">Rate</label>
-            <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
+            <input type="text" class="form-control" value="@if(isset($data->rate)) {{$data->rate}} @endif" id="rate" name="rate" required> 
         </div>
 
         <div class="col-md-12">
             <label for="field1">Min Rate</label>
-            <input type="number" class="form-control" id="customerPhone" name="customerPhone" required>
+            <input type="text" class="form-control" value="@if(isset($data->minRate)) {{$data->minRate}} @endif" id="minRate" name="minRate" required> 
         </div>
        
-        <div class="col-md-12">
-            <button class="btn btn-primary" onclick="submitForm()" type="button">Submit</button>
+        <div class="col-md-12" style="margin-top:12px">
+        <input type="hidden" name="id" value="@if(isset($data->id)) {{$data->id}} @endif">
+        <button class="btn btn-primary" type="submit">Submit</button>
         </div>
         
         </form>
@@ -38,24 +40,13 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Rate</th>
+                    <th>Min Rate</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>addon1</td>
-                    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>addon2</td>
-                    <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-
-                    </td>
-                </tr>
+               
             </tbody>
         </table>
 </div>
@@ -65,7 +56,6 @@
 
 </body>
 </html>
-
 <style>
     #datatable_wrapper
     {
@@ -73,10 +63,28 @@
     }
     </style>
 
-<script type="text/javascript">  
-$(document).ready(function ()  
-{  
-    $('#datatable').dataTable(  
-    {});  
-});  
+<script type="text/javascript">
+$(function () {
+var table = $('#datatable').DataTable({
+processing: true,
+serverSide: true,
+ajax: "{{ route('addons') }}",
+columns: [
+{data: 'name', name: 'name'},
+{data: 'rate', name: 'rate'},
+{data: 'minRate', name: 'minRate'},
+{
+                data: null,
+                render: function (data, type, row)
+                    {
+ 
+ 
+            return '<a href="editaddons/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
+            // '<a style="cursor:pointer" onclick="deleteparameter('+row.id+')"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+ 
+                    }
+                },]
+});
+}); 
         </script> 
+        

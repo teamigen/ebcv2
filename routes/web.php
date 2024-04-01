@@ -75,5 +75,11 @@ Route::controller(SettingsController::class)->group(function(){
     Route::post("settings/saveprinter","saveprinter")->name("saveprinter");
     Route::get("settings/editprinter/{id}","editprinter")->name("editprinter");
 
+    Route::post("settings/savecustomertype","savecustomertype")->name("savecustomertype");
+    Route::get("settings/editcustomertype/{id}","editcustomertype")->name("editcustomertype");
+
+    Route::post("settings/saveaddons","saveaddons")->name("saveaddons");
+    Route::get("settings/editaddons/{id}","editaddons")->name("editaddons");
+
     // Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
 });

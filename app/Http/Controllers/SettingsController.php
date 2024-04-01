@@ -8,6 +8,8 @@ use App\Models\Productcategory;
 use App\Models\Productsubcategory;
 use App\Models\Printer;
 use App\Models\Producttype;
+use App\Models\Customertype;
+use App\Models\Addons;
 use App\Models\Tax;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
@@ -62,14 +64,8 @@ class SettingsController extends Controller
    
     
    
-    public function customertype()
-    {
-        return view('settings/customertype');
-    }
-    public function addons()
-    {
-        return view('settings/addons');
-    }
+   
+    
 
     public function saveparameter(Request $req): RedirectResponse
     
@@ -339,6 +335,111 @@ class SettingsController extends Controller
 
         return view('settings/printers',compact('data'));    
     }
+
+    public function customertype(Request $request)
+    {
+
+        $data='';
+        if ($request->ajax()) {
+        $data = Customertype::select('*');
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->rawColumns(['action'])
+        ->make(true);
+        }
+        return view('settings/customertype',compact('data'));
+    }
+
+    public function savecustomertype(Request $req): RedirectResponse
+    
+    {
+        if($req->id=='')
+        {
+            $param = new Customertype();
+        
+        $param->typeName        =  $req->typeName;
+            $param->save();
+            $notify[] = ['success', 'created successfully.'];
+        }
+        else
+        {
+
+            $param = Customertype::find($req->id);
+ 
+        
+        $param->typeName        =  $req->typeName;
+          
+            $param->save();
+
+            
+            $notify[] = ['success', 'updated successfully.'];
+        }
+        
+        return redirect()->intended('settings/customertype')->withNotify($notify);
+    }
+
+
+    public function editcustomertype($param)
+    {
+        $data = Customertype::find($param);
+
+        return view('settings/customertype',compact('data'));    
+    }
+
+
+    public function addons(Request $request)
+    {
+        $data='';
+        if ($request->ajax()) {
+        $data = Addons::select('*');
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->rawColumns(['action'])
+        ->make(true);
+        }
+        return view('settings/addons',compact('data'));
+    }
+
+    public function saveaddons(Request $req): RedirectResponse
+    
+    {
+        if($req->id=='')
+        {
+            $param = new Addons();
+        
+        $param->name        =  $req->name;
+        $param->rate        =  $req->rate;
+        $param->minRate        =  $req->minRate;
+            $param->save();
+            $notify[] = ['success', 'created successfully.'];
+        }
+        else
+        {
+
+            $param = Addons::find($req->id);
+ 
+        
+        $param->name        =  $req->name;
+        $param->rate        =  $req->rate;
+        $param->minRate        =  $req->minRate;
+
+          
+            $param->save();
+
+            
+            $notify[] = ['success', 'updated successfully.'];
+        }
+        
+        return redirect()->intended('settings/addons')->withNotify($notify);
+    }
+
+    public function editaddons($param)
+    {
+        $data = Addons::find($param);
+
+        return view('settings/addons',compact('data'));    
+    }
+
 
 }
 
