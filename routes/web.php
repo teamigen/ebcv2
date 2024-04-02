@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JoborderController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\InventoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,5 +82,18 @@ Route::controller(SettingsController::class)->group(function(){
     Route::post("settings/saveaddons","saveaddons")->name("saveaddons");
     Route::get("settings/editaddons/{id}","editaddons")->name("editaddons");
 
+
+
+    Route::post("settings/getsubcategory","getsubcategory")->name("getsubcategory");
+
     // Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
+});
+
+Route::controller(InventoryController::class)->group(function(){
+
+    Route::get("inventory/manageproducts","manageproducts")->name("manageproducts");
+    Route::post("inventory/saveproducts","saveproducts")->name("saveproducts");
+
+
+
 });

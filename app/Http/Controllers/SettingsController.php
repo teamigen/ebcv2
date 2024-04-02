@@ -13,6 +13,7 @@ use App\Models\Addons;
 use App\Models\Tax;
 use Illuminate\Http\RedirectResponse;
 use DataTables;
+use DB;
 
 class SettingsController extends Controller
 {
@@ -436,8 +437,32 @@ class SettingsController extends Controller
     public function editaddons($param)
     {
         $data = Addons::find($param);
-
+          
         return view('settings/addons',compact('data'));    
+    }
+
+    public function getsubcategory(Request $request)
+    {
+       $param = $request->catId;
+        // // $data = Productsubcategory::where('catId','=','1')->get();
+
+        // $users = DB::select('select * from productsubcategories where catId = ?', [1]);
+        // echo json_encode($users);
+        // // dd($data);
+        // // print_r($data);
+
+
+        // $categoryTwo = Productsubcategory::where('catId', 1)->get() ;
+
+        $result = DB::table('productsubcategories')
+        ->where('catId', '=', $param)
+        ->get();
+        // print_r($users);
+        echo'<option value="">Select</option>';
+        foreach ($result as $key => $value) {
+            echo "<option value=".$value->id.">".$value->subcategoryName."</option>";
+        }
+        
     }
 
 
