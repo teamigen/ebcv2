@@ -10,69 +10,97 @@
     <div class="col-md-6">
         <h3 style="font-size:14px">Create New subcategory</h3>
         <hr>
-         <form id="form1" method="post" action="{{route('saveproducts')}}">
+         <form id="form1" method="post" action="{{route('saveproducts')}}" enctype="multipart/form-data">
          @csrf
         
          <div class="col-md-12">
             <label for="field1">Product Name</label>
-            <input type="text" class="form-control" id="productName" name="productName" required value="@if(isset($data->productName)) {{$data->productName}} @endif">
+            <input type="text" class="form-control" id="productName" name="productName" required  value="@if(isset($data->productName)) {{$data->productName}} @endif">
         </div>
 
         <div class="col-md-12">
             <label for="field1">Product Rate</label>
-            <input type="text" class="form-control" id="productRate" name="productRate" required value="@if(isset($data->productRate)) {{$data->productRate}} @endif">
+            <input type="text" class="form-control" id="productRate" name="productRate"  required value="@if(isset($data->productRate)) {{$data->productRate}} @endif">
         </div>
 
 
         <div class="col-md-12">
             <label for="field1">Product parameter</label>
-            <select class="form-control" name="productParamaterId" id="productParamaterId" required >
+            <select class="form-control" name="productParamaterId" id="productParamaterId" >
                 <option value="">Select</option>
-                <?php foreach ($productparameters as $key => $value) {
-                   echo "<option value=".$value->id.">".$value->parameterName."(".$value->parameterValue.")</option>";
-                }
-                ?>
-               
+                @foreach($productparameters as $pp)
+                @php
+                    $selected = "";
+                @endphp
+                @if(isset($data->productParamaterId))
+                    @if($data->productParamaterId==$pp->id)
+                    @php
+                    $selected = "selected";
+                @endphp
+                    @endif
+                    @endif
+                   <option value='{{$pp->id}}' {{$selected}}>{{$pp->parameterName}}({{$pp->parameterValue}})</option>
+                @endforeach               
         </select>
         </div>
 
         <div class="col-md-12">
             <label for="field1">Pieces</label>
-            <input type="text" class="form-control" id="productPieces" name="productPieces" required value="@if(isset($data->productPieces)) {{$data->productPieces}} @endif">
+            <input type="text" class="form-control" id="productPieces" name="productPieces"  value="@if(isset($data->productPieces)) {{$data->productPieces}} @endif">
         </div>
 
         <div class="col-md-12">
             <label for="field1">Equation for qty</label>
-            <input type="text" class="form-control" id="equaionForqty" name="equaionForqty" required value="@if(isset($data->equaionForqty)) {{$data->equaionForqty}} @endif">
+            <input type="text" class="form-control" id="equaionForqty" name="equaionForqty"  value="@if(isset($data->equaionForqty)) {{$data->equaionForqty}} @endif">
         </div>
 
         <div class="col-md-12">
             <label for="field1">Tax</label>
-            <select class="form-control" name="taxId" id="taxId" required >
-                <option value="">Select</option>
-                <?php foreach ($taxes as $key => $value) {
-                   echo "<option value=".$value->id.">".$value->taxName."(".$value->taxValue.")</option>";
-                }
-                ?>
+            <select class="form-control" name="taxId" id="taxId"  >
+                <option value=''>Select</option>
+                @foreach ($taxes as $tx)
+                @php
+                    $selected = "";
+                @endphp
+                @if(isset($data->taxId))
+                    @if($data->taxId==$tx->id)
+                    @php
+                    $selected = "selected";
+                @endphp
+                    @endif
+                    @endif
+                <option value='{{$tx->id}}' {{$selected}}>{{$tx->taxName}}({{$tx->taxValue}})</option>
+                @endforeach
                
         </select>
         </div>
 
         <div class="col-md-12">
             <label for="field1">Product category</label>
-            <select class="form-control" name="categoryId" id="categoryId" required>
+            <select class="form-control" name="categoryId" id="categoryId" >
                 <option value="">Select</option>
-                <?php foreach ($productcategories as $key => $value) {
-                   echo "<option value=".$value->id.">".$value->categoryName."</option>";
-                }
-                ?>
+                @foreach($productcategories as $pc)
+
+                @php
+                    $selected = "";
+                @endphp
+                @if(isset($data->categoryId))
+                    @if($data->categoryId==$pc->id)
+                    @php
+                    $selected = "selected";
+                @endphp
+                    @endif
+                    @endif
+
+                 <option value='{{$pc->id}}' {{$selected}}>{{$pc->categoryName}}</option>
+                @endforeach
                
         </select>
         </div>
 
         <div class="col-md-12">
             <label for="field1">Product sub category</label>
-            <select class="form-control" name="subCategoryId" id="subCategoryId" required>
+            <select class="form-control" name="subCategoryId" id="subCategoryId" >
                 <option value="">Select</option>
                                
         </select>
@@ -80,30 +108,55 @@
 
         <div class="col-md-12">
             <label for="field1">Product Type</label>
-            <select class="form-control" name="producttypeId" id="producttypeId" required>
+            <select class="form-control" name="producttypeId" id="producttypeId" >
                 <option value="">Select</option>
-                <?php foreach ($producttypes as $key => $value) {
-                   echo "<option value=".$value->id.">".$value->typeName."</option>";
-                }
-                ?>
-               
+                @foreach($producttypes as $pt)
+
+                @php
+                    $selected = "";
+                @endphp
+                @if(isset($data->producttypeId))
+                    @if($data->producttypeId==$pt->id)
+                    @php
+                    $selected = "selected";
+                @endphp
+                    @endif
+                    @endif
+
+                <option value='{{$pt->id}}' {{$selected}}>{{$pt->typeName}}</option>
+                @endforeach               
         </select>
         </div>
        
         <div class="col-md-12">
             <label for="field1">Printer</label>
-            <select class="form-control" name="printerId" id="printerId" required>
+            <select class="form-control" name="printerId" id="printerId" >
                 <option value="">Select</option>
-                <?php foreach ($printers as $key => $value) {
-                   echo "<option value=".$value->id.">".$value->printerName."</option>";
-                }
-                ?>
+                @foreach($printers as $pn)
+
+                @php
+                    $selected = "";
+                @endphp
+                @if(isset($data->printerId))
+                    @if($data->printerId==$pn->id)
+                    @php
+                    $selected = "selected";
+                @endphp
+                    @endif
+                    @endif
+
+                   <option value='{{$pn->id}}' {{$selected}}>{{$pn->printerName}}</option>
+                   @endforeach
                
         </select>
         </div>
 
         <div class="col-md-12">
-            <label for="field1">Image</label>
+            <label for="field1">Image</label><br>
+            @if(isset($data->image))
+            <img src=" {{ asset('images/uploads/'.$data->image)}}" style="width:100px"><br><br>
+            @endif
+           
             <input type="file" class="form-control" id="image" name="image">
         </div>
 

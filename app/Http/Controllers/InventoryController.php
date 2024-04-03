@@ -37,11 +37,13 @@ class InventoryController extends Controller
 
     }
 
-    public function saveproducts(Request $req)
+    public function saveproducts(Request $req): RedirectResponse
     {
+        // exit();
         if($req->id=='')
         {
             $param = new Product();
+            
         
         $param->productName             =  $req->productName;
 		$param->productRate             =  $req->productRate;
@@ -53,8 +55,23 @@ class InventoryController extends Controller
 		$param->subCategoryId           =  $req->subCategoryId;
 		$param->producttypeId           =  $req->producttypeId;
 		$param->printerId               =  $req->printerId;
-		$param->image                   =  $req->image;
+		// $param->image                   =  $req->image;
+
+
+        $req->validate([
+            'image'=>'required|mimes:jpg,jpeg,png,bmp',
+        ]);
+
+        $imageName = '';
+        if ($image = $req->file('image')){
+            $imageName = time().'-'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move('images/uploads', $imageName);
+        }
+        $param->image                   =  $imageName;
+
+        
             $param->save();
+
             $notify[] = ['success', 'created successfully.'];
         }
         else
@@ -73,7 +90,16 @@ class InventoryController extends Controller
             $param->subCategoryId           =  $req->subCategoryId;
             $param->producttypeId           =  $req->producttypeId;
             $param->printerId               =  $req->printerId;
-            $param->image                   =  $req->image;
+            $req->validate([
+                'image'=>'required|mimes:jpg,jpeg,png,bmp',
+            ]);
+    
+            $imageName = '';
+            if ($image = $req->file('image')){
+                $imageName = time().'-'.uniqid().'.'.$image->getClientOriginalExtension();
+                $image->move('images/uploads', $imageName);
+            }
+            $param->image                   =  $imageName;
 
               
             $param->save();
@@ -83,5 +109,19 @@ class InventoryController extends Controller
         }
         
         return redirect()->intended('inventory/manageproducts')->withNotify($notify);
+    }
+
+    public function editproducts($param)
+    {
+        $data = Product::find($param);
+        $productparameters = Productparameter::all();
+        $taxes = Tax::all();
+        $productcategories = Productcategory::all();
+        $producttypes = Producttype::all();
+        $printers = Printer::all();
+
+
+        return view('inventory/manageproducts',compact('data','productparameters','taxes','productcategories','producttypes','printers'));
+            
     }
 }
