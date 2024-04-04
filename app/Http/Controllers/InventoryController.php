@@ -17,6 +17,7 @@ class InventoryController extends Controller
     public function manageproducts(Request $request)
     {
         $data='';
+        
         if ($request->ajax()) {
         $data = Product::select('*');
         return Datatables::of($data)
@@ -114,6 +115,8 @@ class InventoryController extends Controller
     public function editproducts($param)
     {
         $data = Product::find($param);
+
+       
         $productparameters = Productparameter::all();
         $taxes = Tax::all();
         $productcategories = Productcategory::all();

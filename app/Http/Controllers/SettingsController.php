@@ -443,16 +443,9 @@ class SettingsController extends Controller
 
     public function getsubcategory(Request $request)
     {
+
        $param = $request->catId;
-        // // $data = Productsubcategory::where('catId','=','1')->get();
-
-        // $users = DB::select('select * from productsubcategories where catId = ?', [1]);
-        // echo json_encode($users);
-        // // dd($data);
-        // // print_r($data);
-
-
-        // $categoryTwo = Productsubcategory::where('catId', 1)->get() ;
+      
 
         $result = DB::table('productsubcategories')
         ->where('catId', '=', $param)
@@ -460,7 +453,15 @@ class SettingsController extends Controller
         // print_r($users);
         echo'<option value="">Select</option>';
         foreach ($result as $key => $value) {
-            echo "<option value=".$value->id.">".$value->subcategoryName."</option>";
+            $selected='';
+            if($request->subcatId!='')
+                {
+                    if($request->subcatId==$value->id)
+                    {
+                        $selected='selected';
+                    }
+                }
+            echo "<option value=".$value->id." ".$selected.">".$value->subcategoryName."</option>";
         }
         
     }

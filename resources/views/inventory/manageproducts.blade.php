@@ -77,7 +77,7 @@
 
         <div class="col-md-12">
             <label for="field1">Product category</label>
-            <select class="form-control" name="categoryId" id="categoryId" >
+            <select class="form-control" name="categoryId" id="categoryId" onchange="getsubcategory(this.value)">
                 <option value="">Select</option>
                 @foreach($productcategories as $pc)
 
@@ -221,27 +221,30 @@ columns: [
 }); 
 
 
-$("#categoryId").change(function(){
 
-    var catId = $("#categoryId").val();
-$.ajax({
 
-    url:"{{route('getsubcategory')}}",
-                    type: 'POST',
-                    data:{"catId":catId},
-                    // dataType: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (data) {
+function getsubcategory(id,subcatId="")
+{
+    $.ajax({
 
-                        $("#subCategoryId").html(data);
-                       
-                    },
-                     
-                });
+url:"{{route('getsubcategory')}}",
+                type: 'POST',
+                data:{"catId":id,"subcatId":subcatId},
+                // dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
 
-});
+                    $("#subCategoryId").html(data);
+                   
+                },
+                 
+            });
+
+
+
+}
 
 
 
