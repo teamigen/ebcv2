@@ -78,10 +78,7 @@ columns: [
                 render: function (data, type, row)
                     {
  
- 
-            return '<a href="editaddons/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
-            // '<a style="cursor:pointer" onclick="deleteparameter('+row.id+')"><i class="fa fa-trash" aria-hidden="true"></i></a>';
- 
+                        return '<a href="{{URL::to("settings/editaddons")}}/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
                     }
                 },]
 });

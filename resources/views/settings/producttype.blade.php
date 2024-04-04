@@ -65,9 +65,7 @@ columns: [
                 render: function (data, type, row)
                     {
  
- 
-            return '<a href="editproducttype/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
-            // '<a style="cursor:pointer" onclick="deleteparameter('+row.id+')"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                        return '<a href="{{URL::to("settings/editproducttype")}}/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
  
                     }
                 },]

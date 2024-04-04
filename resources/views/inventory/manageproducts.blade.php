@@ -165,7 +165,6 @@
             <input type="hidden" name="id" value="@if(isset($data->id)) {{$data->id}} @endif">
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
-        
         </form>
         </div>
     <div class="col-md-6" style="border-left:1px solid #ccc">
@@ -214,8 +213,7 @@ columns: [
                     {
  
  
-            return '<a href="editproducts/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
-            // '<a style="cursor:pointer" onclick="deleteparameter('+row.id+')"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+            return '<a href="{{URL::to("inventory/editproducts")}}/'+row.id+'"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;';
  
                     }
                 },]
