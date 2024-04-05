@@ -12,6 +12,9 @@ use App\Models\Customertype;
 use App\Models\Addons;
 use App\Models\Tax;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Session;
+use App\Models\User;
 use DataTables;
 use DB;
 
@@ -19,13 +22,23 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        return view('settings/settingshome');
+        if(Auth::check()){
+
+            return view('settings/settingshome');
+        }
+        else
+        {
+            return view('auth.login');
+        }
+        
     }
 
     public function productparameter(Request $request)
     {
 
-        $data='';
+        if(Auth::check()){
+
+            $data='';
             if ($request->ajax()) {
             $data = Productparameter::select('*');
             return Datatables::of($data)
@@ -34,33 +47,59 @@ class SettingsController extends Controller
             ->make(true);
             }
             return view('settings/productparameter',compact('data'));
+        }
+        else
+        {
+            return view('auth.login');
+        }
+
+        
             
 
         
     }
     public function tax(Request $request)
     {
-        $data='';
-        if ($request->ajax()) {
-            $data = Tax::select('*');
+        if(Auth::check()){
+
+            $data='';
+            if ($request->ajax()) {
+                $data = Tax::select('*');
+                return Datatables::of($data)
+                ->addIndexColumn()
+                ->rawColumns(['action'])
+                ->make(true);
+                }
+            return view('settings/tax',compact('data'));
+        }
+        else
+        {
+            return view('auth.login');
+        }
+        
+        
+    }
+    public function productcategory(Request $request)
+    {
+
+        if(Auth::check()){
+
+            $data='';
+            if ($request->ajax()) {
+            $data = Productcategory::select('*');
             return Datatables::of($data)
             ->addIndexColumn()
             ->rawColumns(['action'])
             ->make(true);
             }
-        return view('settings/tax',compact('data'));
-    }
-    public function productcategory(Request $request)
-    {
-        $data='';
-        if ($request->ajax()) {
-        $data = Productcategory::select('*');
-        return Datatables::of($data)
-        ->addIndexColumn()
-        ->rawColumns(['action'])
-        ->make(true);
+            return view('settings/productcategory',compact('data'));
         }
-        return view('settings/productcategory',compact('data'));
+        else
+        {
+            return view('auth.login');
+        }
+
+        
     }
    
     
@@ -184,21 +223,31 @@ class SettingsController extends Controller
 
     public function productsubcategory(Request $request)
     {
-        $data='';
-        if ($request->ajax()) {
-        
-        $data = Productsubcategory::join('productcategories', 'productcategories.id', '=', 'productsubcategories.catId')
-              		->get(['productcategories.categoryName', 'productsubcategories.subcategoryName','productsubcategories.id']);
-        return Datatables::of($data)
-        ->addIndexColumn()
-        ->rawColumns(['action'])
-        ->make(true);
+
+        if(Auth::check()){
+
+            $data='';
+            if ($request->ajax()) {
+            
+            $data = Productsubcategory::join('productcategories', 'productcategories.id', '=', 'productsubcategories.catId')
+                          ->get(['productcategories.categoryName', 'productsubcategories.subcategoryName','productsubcategories.id']);
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
+            }
+    
+    
+            $productcategories = Productcategory::all();
+    
+            return view('settings/productsubcategory',compact('data','productcategories'));
+        }
+        else
+        {
+            return view('auth.login');
         }
 
-
-        $productcategories = Productcategory::all();
-
-        return view('settings/productsubcategory',compact('data','productcategories'));
+        
     }
 
     public function saveproductsubcategory(Request $req):RedirectResponse
@@ -241,15 +290,24 @@ class SettingsController extends Controller
     public function producttype(Request $request)
     {
 
-        $data='';
-        if ($request->ajax()) {
-        $data = Producttype::select('*');
-        return Datatables::of($data)
-        ->addIndexColumn()
-        ->rawColumns(['action'])
-        ->make(true);
+        if(Auth::check()){
+
+            $data='';
+            if ($request->ajax()) {
+            $data = Producttype::select('*');
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
+            }
+            return view('settings/producttype',compact('data'));
         }
-        return view('settings/producttype',compact('data'));
+        else
+        {
+            return view('auth.login');
+        }
+
+      
    
 
     }
@@ -292,15 +350,24 @@ class SettingsController extends Controller
     public function printers(Request $request)
     {
 
-        $data='';
-        if ($request->ajax()) {
-        $data = Printer::select('*');
-        return Datatables::of($data)
-        ->addIndexColumn()
-        ->rawColumns(['action'])
-        ->make(true);
+        if(Auth::check()){
+
+            $data='';
+            if ($request->ajax()) {
+            $data = Printer::select('*');
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
+            }
+            return view('settings/printers',compact('data'));
         }
-        return view('settings/printers',compact('data'));
+        else
+        {
+            return view('auth.login');
+        }
+
+       
     }
 
     public function saveprinter(Request $req) :RedirectResponse
@@ -340,15 +407,24 @@ class SettingsController extends Controller
     public function customertype(Request $request)
     {
 
-        $data='';
-        if ($request->ajax()) {
-        $data = Customertype::select('*');
-        return Datatables::of($data)
-        ->addIndexColumn()
-        ->rawColumns(['action'])
-        ->make(true);
+        if(Auth::check()){
+
+            $data='';
+            if ($request->ajax()) {
+            $data = Customertype::select('*');
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
+            }
+            return view('settings/customertype',compact('data'));
         }
-        return view('settings/customertype',compact('data'));
+        else
+        {
+            return view('auth.login');
+        }
+
+        
     }
 
     public function savecustomertype(Request $req): RedirectResponse
@@ -390,15 +466,24 @@ class SettingsController extends Controller
 
     public function addons(Request $request)
     {
-        $data='';
-        if ($request->ajax()) {
-        $data = Addons::select('*');
-        return Datatables::of($data)
-        ->addIndexColumn()
-        ->rawColumns(['action'])
-        ->make(true);
+        if(Auth::check()){
+
+            $data='';
+            if ($request->ajax()) {
+            $data = Addons::select('*');
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
+            }
+            return view('settings/addons',compact('data'));
         }
-        return view('settings/addons',compact('data'));
+        else
+        {
+            return view('auth.login');
+        }
+
+        
     }
 
     public function saveaddons(Request $req): RedirectResponse

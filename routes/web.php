@@ -44,6 +44,7 @@ Route::controller(JoborderController::class)->group(function(){
                 // link        //controller function         //indexfromhome
     Route::get('joborder/manage','managejoborder')->name('managejoborder');
     Route::get('joborder/createnew','createjoborder')->name('createjoborder');
+    Route::post('joborder/savecustomerform','savecustomerform')->name('savecustomerform');
 });
 
 

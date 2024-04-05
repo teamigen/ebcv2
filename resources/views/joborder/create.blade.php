@@ -1,4 +1,7 @@
 @include('layout.head')
+<meta name="csrf-token" content="{{ csrf_token() }}"> 
+<input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <section class="ebc-orders">
@@ -20,25 +23,35 @@
         <label for="field2">Customer Name</label>
         <input type="text" class="form-control" id="customerName" name="customerName" required>
       </div>
+      
       <div class="col-md-3" style="float:left;margin-bottom:8px;">
         <label for="field3">Customer Type</label>
-        <select class="form-select" id="customertype" id="customertype" required>
+        <select class="form-select" id="customerTypeId" name="customerTypeId" required>
           <option value="">Select Customer Type</option>
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
+          @foreach($customertype as $cust)
+          <option value="{{$cust->id}}">{{$cust->typeName}}</option>
+          @endforeach
         </select>
       </div>
+
       <div class="col-md-3" style="float:left;margin-bottom:8px;">
         <label for="field3">Source</label>
-        <select class="form-select" id="source" name="source" required>
+        <select class="form-select" id="sourceId" name="sourceId" required>
           <option value="">Select Source</option>
-          <option value="option1">Option 1</option>
-          <option value="option2">Option 2</option>
+          <option value="enq">Enquiry</option>
+          @foreach($source as $sc)
+          <option value="{{$sc->id}}">{{$sc->sourceName}}</option>
+          @endforeach
         </select>
       </div>
       <div class="col-md-3" style="float:left;margin-bottom:8px;">
-        <label for="select1">GST</label>
-        <input type="text" class="form-control" id="customergst" name="customergst" required>
+        <label for="field3">Tax</label>
+        <select class="form-select" id="taxId" name="taxId" required>
+          <option value="">Select Tax</option>
+          @foreach($tax as $tx)
+          <option value="{{$tx->id}}">{{$tx->taxName}}({{$tx->taxValue}})</option>
+          @endforeach
+        </select>
       </div>
       <div class="col-md-3" style="float:left;margin-bottom:8px;">
         <label for="select1">Email</label>
@@ -48,7 +61,8 @@
         <label for="textarea1">Address</label>
         <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
       </div>
-      <button class="btn btn-primary" onclick="nextStep(1)" type="button">Next</button>
+      <input type="text" class="primeId" name="primeId" id="customerPrimeid" value="0">
+      <button class="btn btn-primary" type="submit">Next</button>
     </div>
 
     <div class="form-step" id="step-2">
@@ -117,7 +131,8 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-secondary" onclick="prevStep(2)" type="button">Previous</button>
+      <input type="text" class="primeId" name="primeId" id="productPrimeid">
+      <button class="btn btn-secondary" onclick="getcustomerdetails()" type="button">Previous</button>
       <button class="btn btn-primary" onclick="nextStep(2)" type="button">Next</button>
     </div>
 
@@ -133,6 +148,39 @@
 </section>
 
 <script>
+
+$(document).ready(function(){
+
+
+  $("#form1").submit(function(event){
+
+    event.preventDefault();
+      $.ajax({
+          type: "POST",
+          url: "savecustomerform",
+          headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+          data: $("#form1").serialize(), // serializes the form's elements.
+          success: function(data)
+          {
+            alert(data);
+            $(".primeId").val(data);
+            document.getElementById(`step-1`).classList.remove('active-step');
+            document.getElementById(`step-2`).classList.add('active-step');
+            
+            let progress = ((2) / 3) * 100;
+            document.querySelector('.progress-bar').style.width = `${progress}%`;
+            document.querySelector('.progress-bar').setAttribute('aria-valuenow', progress);
+            document.querySelector('.progress-bar').innerHTML = `Step ${currentStep + 1}`;
+
+             // show response from the php script.
+          }
+      });
+
+  });
+
+});
   function nextStep(currentStep) {
     if(currentStep==1)
     {
@@ -147,15 +195,7 @@
       var actionUrl ='saveproductsfrom';
     }
 
-    $.ajax({
-        type: "POST",
-        url: actionUrl,
-        data: $("#form"+currentStep).serialize(), // serializes the form's elements.
-        success: function(data)
-        {
-          alert(data); // show response from the php script.
-        }
-    });
+    
     
     document.getElementById(`step-${currentStep}`).classList.remove('active-step');
     document.getElementById(`step-${currentStep + 1}`).classList.add('active-step');
