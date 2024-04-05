@@ -221,6 +221,7 @@ columns: [
 }); 
 
 
+// getsubcategory('@php echo $data->categoryId @endphp','@php echo $data->subCategoryId @endphp');
 
 
 function getsubcategory(id,subcatId="")
