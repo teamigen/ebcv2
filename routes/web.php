@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JoborderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,4 +98,12 @@ Route::controller(InventoryController::class)->group(function(){
 
 
 
+});
+
+Route::controller(UserController::class)->group(function(){
+
+    Route::get("user/manageuser","manageuser")->name("manageuser");
+    Route::post("user/saveuser","saveuser")->name("saveuser");
+    Route::post("user/checkexist","checkexist")->name("checkexist");
+    Route::get("user/edituser/{id}","edituser")->name("edituser");
 });

@@ -39,11 +39,11 @@
             <h3>LOGIN</h3>
       <div class="mb-3">
         <label for="field1">Username</label>
-        <input type="text" class="form-control" id="field1" name="email" required value="test">
+        <input type="text" class="form-control" id="field1" name="email" required value="test@gmail.com">
       </div>
       <div class="mb-3">
         <label for="field2">Password</label>
-        <input type="text" class="form-control" id="field2" name="password" required value="test">
+        <input type="text" class="form-control" id="field2" name="password" required value="1 ">
       </div>
     </div>
 @if ($errors->has('email'))

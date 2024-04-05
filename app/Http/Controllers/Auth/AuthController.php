@@ -37,7 +37,15 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request): RedirectResponse
     {
-        // print_r($_POST);exit();
+        // print_r($_POST);
+
+        
+        // $password = '1';
+        // $hashedPassword = Hash::make($password);
+        // echo $hashedPassword;
+        // // exit();
+
+
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -48,7 +56,8 @@ class AuthController extends Controller
 		
         if (Auth::attempt($credentials)) {
             
-			$id        = Auth::user()->id;
+			echo $id        = Auth::user()->id;
+            
             $Log = new Log();
             $Log->user_id        =  $id;
 			$Log->user_name      =  Auth::user()->name;
