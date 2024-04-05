@@ -43,7 +43,7 @@
       </div>
       <div class="mb-3">
         <label for="field2">Password</label>
-        <input type="text" class="form-control" id="field2" name="password" required value="1 ">
+        <input type="text" class="form-control" id="field2" name="password" required value="1">
       </div>
     </div>
 @if ($errors->has('email'))
