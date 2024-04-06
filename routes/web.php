@@ -83,9 +83,11 @@ Route::controller(SettingsController::class)->group(function(){
 
     Route::post("settings/saveaddons","saveaddons")->name("saveaddons");
     Route::get("settings/editaddons/{id}","editaddons")->name("editaddons");
+    Route::get("settings/editaddons/{id}","editaddons")->name("editaddons");
 
 
 
+    Route::post("settings/getaddonsdata","getaddonsdata")->name("getaddonsdata");
     Route::post("settings/getsubcategory","getsubcategory")->name("getsubcategory");
 
     // Route::get('users', ['uses'=>'UserController@index', 'as'=>'users.index']);
@@ -94,6 +96,7 @@ Route::controller(SettingsController::class)->group(function(){
 Route::controller(InventoryController::class)->group(function(){
 
     Route::get("inventory/manageproducts","manageproducts")->name("manageproducts");
+    Route::get("inventory/createproducts","createproducts")->name("createproducts");
     Route::post("inventory/saveproducts","saveproducts")->name("saveproducts");
     Route::get("inventory/editproducts/{id}","editproducts")->name("editproducts");
 

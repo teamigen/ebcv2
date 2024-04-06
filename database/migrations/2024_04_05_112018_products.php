@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
                 $table->string("productName");
                 $table->string("productRate");
-                $table->bigInteger("productParamaterId");
+                $table->string("productParamaterId");
                 $table->string("productPieces");
                 $table->string("equaionForqty");
                 $table->bigInteger("taxId");
@@ -26,6 +26,7 @@ return new class extends Migration
                 $table->bigInteger("producttypeId");
                 $table->string("printerId");
                 $table->string("image");
+                $table->string("additionalImages");
                 $table->string("relatedProducts");
                 $table->bigInteger("initialStock");
                 $table->bigInteger("initialStockRate");

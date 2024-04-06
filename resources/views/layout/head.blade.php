@@ -47,6 +47,11 @@
             {
                $navlink = 'managejoborder';
             }
+
+            elseif($navname=='inventory')
+            {
+               $navlink = 'manageproducts';
+            }
             else
             {
               $navlink='home';

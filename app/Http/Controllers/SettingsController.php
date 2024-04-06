@@ -250,6 +250,7 @@ class SettingsController extends Controller
         
     }
 
+
     public function saveproductsubcategory(Request $req):RedirectResponse
     {
         if($req->id=='')
@@ -549,6 +550,13 @@ class SettingsController extends Controller
             echo "<option value=".$value->id." ".$selected.">".$value->subcategoryName."</option>";
         }
         
+    }
+
+    public function getaddonsdata(Request $req)
+    {
+        $param = Addons::find($req->addonsId);
+
+        echo $param->rate.'/'.$param->minRate;
     }
 
 
