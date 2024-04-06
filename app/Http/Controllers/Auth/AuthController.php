@@ -56,7 +56,7 @@ class AuthController extends Controller
 		
         if (Auth::attempt($credentials)) {
             
-			echo $id        = Auth::user()->id;
+			$id        = Auth::user()->id;
             
             $Log = new Log();
             $Log->user_id        =  $id;
