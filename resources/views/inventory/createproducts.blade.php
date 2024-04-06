@@ -15,7 +15,7 @@
 <link href="{{ asset('assets/multiselect/css/icons/icomoon/styles.css')}}" rel="stylesheet" type="text/css">
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -23,13 +23,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body row" id="appenddisplay">
+       
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -209,7 +209,7 @@
         <hr style="margin-top: 10px; height: 2px;">
 
         <div class="col-md-12 row" style="margin-top:12px;padding:0px;"> 
-            <h6>Discount Slab <span style="float:right"><a class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye" aria-hidden="true"></i></a></span></h6>
+            <h6>Discount Slab <span style="float:right"><a class="btn btn-success" data-toggle="modal" data-target="#exampleModal" onclick="getcustomerdiscounts({{$data->id}})"><i class="fa fa-eye" aria-hidden="true"></i></a></span></h6>
             
             <div class="col-lg-5">
                                 <div class="form-group">
@@ -495,6 +495,26 @@ function getaddonsdata(addonsId,id)
 }
 
 
+function getcustomerdiscounts(id)
+{
+    // alert(id);
+    $.ajax({
+    url : '{{route("getcustomerdiscounts")}}',
+    type: "POST",
+    data: {'productId': id},
+    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+        success: function(datas) 
+        {
+            $("#exampleModal").modal("show");
+            $("#exampleModalLabel").html("Customertype Discount");
+           $("#appenddisplay").html(datas);
+           
+        }
+    });
+}
 
 </script> 
         

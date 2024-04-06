@@ -99,6 +99,7 @@ Route::controller(InventoryController::class)->group(function(){
     Route::get("inventory/createproducts","createproducts")->name("createproducts");
     Route::post("inventory/saveproducts","saveproducts")->name("saveproducts");
     Route::get("inventory/editproducts/{id}","editproducts")->name("editproducts");
+    Route::post("inventory/getcustomerdiscounts","getcustomerdiscounts")->name("getcustomerdiscounts");
 
 
 

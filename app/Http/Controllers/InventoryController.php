@@ -203,4 +203,45 @@ class InventoryController extends Controller
 
         return view('inventory/createproducts',compact('data','productparameters','taxes','productcategories','producttypes','printers','customertype','rawmaterials','addons'));
     }
+
+    public function getcustomerdiscounts(Request $req)
+    {
+        $result = DB::table('product_customertypediscount')
+        ->where('productId', '=', $req->productId)
+        ->get();
+
+        $customertype = Customertype::all();
+
+        foreach ($result as $key => $value) {
+           echo' <div class="col-lg-5">
+           <div class="form-group">
+               <label>Customer Type</label>
+                <select disabled id="customerTypeIdDb'.$value->id.'" name="customerTypeId[] " class="select form-control" >
+                   <option value="">Select Customer Type</option>';
+                      foreach($customertype as $ct){
+                        $selected='';
+                        if($ct->id==$value->customerTypeId)
+                        {
+                            $selected ='selected';
+                        }
+                      echo'<option value="'.$ct->id.'" '.$selected.'>'.$ct->typeName.'</option>';
+                      }
+               echo'</select>
+               </div>
+           </div>  
+           
+           <div class="col-lg-5">
+           <div class="form-group">
+           <label for="progress-basicpill-lastname-input">Max Discount</label>
+               <input  type="text" class="form-control" id="discountMaxDb'.$value->id.'" name="discountMax[]" value="'.$value->discountMax.'">
+           </div>
+       </div>
+       <div class="col-lg-2">
+           <div class="form-group">
+               <button type="button" class="btn btn-danger" style="margin-top:35px;" onclick="deletecustomertype('.$value->id.')">X</button>
+               <button type="button" class="btn btn-success" style="margin-top:35px;" onclick="savecustomertype('.$value->id.')"><i class="fa fa-save"></i></button>
+       </div></div>';
+        }
+        // print_r($result);
+    }
 }
